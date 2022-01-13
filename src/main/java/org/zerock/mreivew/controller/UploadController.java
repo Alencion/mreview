@@ -102,6 +102,19 @@ public class UploadController {
         return result;
     }
 
+    @PostMapping("removeFile")
+    public ResponseEntity<Boolean> removeFile(String fileName) {
+
+        String srcFileName = URLDecoder.decode(fileName, StandardCharsets.UTF_8);
+        File file = new File(joinFileSeparator(uploadPath, srcFileName));
+        boolean result = file.delete();
+
+        File thumbnail = new File(file.getParent(), "s_" + file.getName());
+        thumbnail.delete();
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     private String makeFolder() {
 
         String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
