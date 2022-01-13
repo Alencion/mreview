@@ -38,7 +38,7 @@ public class MovieRepositoryTests {
 
             this.movieRepository.save(movie);
 
-            int count = (int)(Math.random() * 5) + 1; // 1~4
+            int count = (int) (Math.random() * 5) + 1; // 1~4
 
             for (int j = 0; j < count; j++) {
                 MovieImage movieImage = MovieImage.builder()
@@ -63,6 +63,20 @@ public class MovieRepositoryTests {
         // then
         for (Object[] objects : result.getContent()) {
             System.out.println(Arrays.toString(objects));
+        }
+    }
+
+    @Test
+    void testGetMovieWithAll() {
+        // given
+        Long mno = 92L;
+        // when
+        List<Object[]> result = this.movieRepository.getMovieWithAll(mno);
+        // then
+        System.out.println(result);
+
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
         }
     }
 }
