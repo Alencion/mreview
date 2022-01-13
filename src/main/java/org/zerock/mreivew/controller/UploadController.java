@@ -1,6 +1,7 @@
 package org.zerock.mreivew.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -56,12 +57,17 @@ public class UploadController {
 
             String uuid = UUID.randomUUID().toString();
 
-            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
+            String saveName = joinFileSeparator(uploadPath, folderPath, uuid + "_" + fileName);
 
             Path savePath = Paths.get(saveName);
 
             try {
                 uploadFile.transferTo(savePath);
+                String thumbnailSaveName = joinFileSeparator(uploadPath, folderPath, "s_" + uuid + "_" + fileName);
+
+                File thumbnailFile = new File(thumbnailSaveName);
+                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+
                 resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -81,7 +87,7 @@ public class UploadController {
 
             log.info("srcFileName: {}", srcFileName);
 
-            File file = new File(uploadPath + File.separator + srcFileName);
+            File file = new File(joinFileSeparator(uploadPath, srcFileName));
 
             log.info("file: {}", file);
 
@@ -108,6 +114,10 @@ public class UploadController {
             uploadPathFolder.mkdirs();
         }
         return folderPath;
+    }
+
+    private String joinFileSeparator(String... paths) {
+        return String.join(File.separator, paths);
     }
 
     private boolean isImage(MultipartFile uploadFile) {
