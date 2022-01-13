@@ -14,16 +14,16 @@ public class UploadResultDTO implements Serializable {
 
     private static final long serialVersionUID = -9065886505342363929L;
 
-    private String filename;
+    private String fileName;
     private String uuid;
     private String folderPath;
 
     public String getImagePath() {
-        return URLEncoder.encode(folderPath + File.separator + uuid + "_" + filename, StandardCharsets.UTF_8);
+        return URLEncoder.encode(folderPath + File.separator + uuid + "_" + fileName, StandardCharsets.UTF_8);
     }
 
     public String getThumbnailPath() {
-        return URLEncoder.encode(folderPath +File.separator + "s_" + uuid + "_" + filename, StandardCharsets.UTF_8);
+        return URLEncoder.encode(folderPath +File.separator + "s_" + uuid + "_" + fileName, StandardCharsets.UTF_8);
     }
 }
 

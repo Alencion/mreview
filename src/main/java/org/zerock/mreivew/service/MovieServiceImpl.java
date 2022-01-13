@@ -31,7 +31,6 @@ public class MovieServiceImpl implements MovieService {
 
         movieImageList.forEach(this.movieImageRepository::save);
 
-
         return movie.getMno();
     }
 }
