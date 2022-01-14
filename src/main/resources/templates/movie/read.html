@@ -52,12 +52,15 @@
             .uploadResult ul li img {
                 width: 100px;
             }
+
+
         </style>
 
         <div class="uploadResult">
             <ul>
-                <li th:each="movieImage: ${dto.imageDTOList}">
-                    <img th:if="${movieImage.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailPath()}|">
+                <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailPath()}">
+                    <img th:if="${movieImage.path != null}"
+                         th:src="|/display?fileName=${movieImage.getThumbnailPath()}|">
                 </li>
             </ul>
         </div>
@@ -121,7 +124,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -271,7 +274,20 @@
 
                     reviewModal.modal('hide');
                 });
+
+                $(".uploadResult li").click(function() {
+
+                    var file = $(this).data('file');
+
+                    console.log(file);
+
+                    $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName=" + file + "&size=1'>")
+
+                    $(".imageModal").modal("show");
+                });
             });
+
+
 
         </script>
     </th:block>
